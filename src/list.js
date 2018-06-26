@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export, no-confusing-arrow */
 // eslint-disable-next-line
 import { l, cons, head, tail, isEmpty, toString as listToString } from 'hexlet-pairs-data';
 
@@ -13,17 +13,15 @@ export const has = (list: List, element: mixed): boolean => {
   if (head(list) === element) {
     return true;
   }
+
   return has(tail(list), element);
 };
 
 export const reverse = (list: List): List => {
-  const iter = (acc: List, udList: List) => {
-    if (isEmpty(udList)) {
-      return acc;
-    }
-    return iter(cons(head(udList), acc), tail(udList));
-  };
-  return iter(l(), list);
+  const iter = (items: List, acc: List): List =>
+    isEmpty(items) ? acc : iter(tail(items), cons(head(items), acc));
+
+  return iter(list, l());
 };
 
 export const concat = (list1: List, list2: List): List => {
@@ -34,3 +32,4 @@ export const concat = (list1: List, list2: List): List => {
   return cons(head(list1), concat(tail(list1), list2));
 };
 // END
+
