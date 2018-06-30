@@ -1,5 +1,5 @@
 // @flow
 
-import list from './list';
+// // import fn from './fn';
 
-export default list;
+// export default fn;
