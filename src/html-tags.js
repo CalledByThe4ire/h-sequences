@@ -20,18 +20,29 @@ import { reverse as reverseStr } from './strings';
 // BEGIN (write your solution here)
 // @flow
 type List = (...args: any) => any | null;
-export const map = (func: Function, collection: List): List => {
-  const iter = (fn: Function, acc: List) => {
-    if (isEmpty(acc)) {
-      return l();
+// Рекурсивный процесс
+// export const map = (func, elements) => {
+//   if (isEmpty(elements)) {
+//     return l();
+//   }
+
+//   return cons(func(head(elements)), map(func, tail(elements)));
+// };
+
+// Итеративный процесс (рекурсивно)
+export const map = (func: Function, elements: List) => {
+  const iter = (items: List, acc: List) => {
+    if (isEmpty(items)) {
+      return reverse(acc);
     }
-    const newElement = func(head(acc));
-    return cons(newElement, iter(fn, tail(acc)));
+    return iter(tail(items), cons(func(head(items)), acc));
   };
-  return iter(func, collection);
+
+  return iter(elements, l());
 };
-export const mirror = (list: List): List =>
-  map((elem: mixed) => node(name(elem), reverseStr(value(elem))), list);
+
+export const mirror = (elements: List): List =>
+  map((element: mixed) => node(name(element), reverseStr(value(element))), elements);
 // END
 
 export const b2p = (elements: List): List => {
