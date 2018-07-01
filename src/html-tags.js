@@ -1,15 +1,11 @@
-/* eslint-disable import/prefer-default-export, arrow-body-style, consistent-return */
+/* eslint-disable import/prefer-default-export, no-confusing-arrow */
 import {
   isEmpty,
   head,
   tail,
   toString as listToString,
 } from 'hexlet-pairs-data'; // eslint-disable-line
-import {
-  value,
-  is,
-  toString as htmlToString,
-} from 'hexlet-html-tags'; // eslint-disable-line
+import { value, is, toString as htmlToString } from 'hexlet-html-tags'; // eslint-disable-line
 
 // BEGIN (write your solution here)
 // @flow
@@ -17,27 +13,20 @@ type Message = 'car' | 'cdr';
 type Pair = (message: Message) => any;
 type List = (...args: any) => any | null;
 
-export const reduce = (fn: Function, acc: number, elements: List) => {
-  const iter = (udList: List, accumulator: number) => {
-    if (isEmpty(udList)) {
-      return accumulator;
-    }
-    const item: Pair = head(udList);
-    const newAcc: number = (fn(item, acc)) ? accumulator + 1 : accumulator;
-    return iter(tail(udList), newAcc);
-  };
-  return iter(elements, 0);
+export const reduce = (func: Function, acc: 0, elements: List) => {
+  if (isEmpty(elements)) {
+    return acc;
+  }
+
+  return reduce(func, func(head(elements), acc), tail(elements));
 };
 
-export const emptyTagsCount = (tagName: string, html: List) => {
-  return reduce((element: Pair, acc: number) => {
-    if (is(tagName, element)) {
-      if (value(element)) {
-        return acc;
-      }
-      return acc + 1;
-    }
-  }, 0, html);
+export const emptyTagsCount = (tagName: string, elements: List): number => {
+  const predicate: boolean = element =>
+    is(tagName, element) && value(element) === '';
+  const func = (element: Pair, acc: number): number =>
+    predicate(element) ? acc + 1 : acc;
+  return reduce(func, 0, elements);
 };
 // END
 
