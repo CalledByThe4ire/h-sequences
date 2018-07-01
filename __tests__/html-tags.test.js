@@ -1,5 +1,6 @@
-import { make, append, node, value, is, toString as htmlToString } from 'hexlet-html-tags';
-import { map, mirror } from '../src/html-tags';
+import { l, toString as listToString } from 'hexlet-pairs-data'; // eslint-disable-line
+import { make, append, node, is, toString as htmlToString } from 'hexlet-html-tags'; // eslint-disable-line
+import { filter, quotes, removeHeaders } from '../src/html-tags';
 
 describe('dom', () => {
   let dom;
@@ -16,35 +17,30 @@ describe('dom', () => {
     dom = append(dom6, node('p', 'is about logic'));
   });
 
-  it('#b2p', () => {
-    const dom1 = append(make(), node('blockquote', 'quote'));
-    const processedDom = map((element) => {
-      if (is('blockquote', element)) {
-        return node('p', value(element));
-      }
-      return element;
-    }, dom1);
+  it('#removeHeaders', () => {
+    const processedDom = removeHeaders(dom);
 
-    const result = '<p>quote</p>';
+    const result = '<p>is a lisp</p><p>is a functional language</p><p>is about logic</p>';
     expect(htmlToString(processedDom)).toBe(result);
   });
 
-  it('#map', () => {
-    const result = map(() => {}, make());
-    expect(htmlToString(result)).toBe('');
-    const processedDom = map((element) => {
-      if (is('h1', element)) {
-        return node('h2', value(element));
-      }
-      return element;
-    }, dom);
+  it('#filter', () => {
+    const processedDom = filter(element => is('h1', element), dom);
 
-    const result2 = '<h2>scheme</h2><p>is a lisp</p><h2>haskell</h2><p>is a functional language</p><h2>prolog</h2><p>is about logic</p>';
-    expect(htmlToString(processedDom)).toBe(result2);
+    const result = '<h1>scheme</h1><h1>haskell</h1><h1>prolog</h1>';
+    expect(htmlToString(processedDom)).toBe(result);
+
+    const processedDom2 = filter(element => is('p', element), dom);
+    const result2 = '<p>is a lisp</p><p>is a functional language</p><p>is about logic</p>';
+    expect(htmlToString(processedDom2)).toBe(result2);
+
+    expect(htmlToString(make())).toBe('');
   });
 
-  it('#mirror', () => {
-    const result = '<h1>emehcs</h1><p>psil a si</p><h1>lleksah</h1><p>egaugnal lanoitcnuf a si</p><h1>golorp</h1><p>cigol tuoba si</p>';
-    expect(htmlToString(mirror(dom))).toBe(result);
+  it('#quotes', () => {
+    const dom1 = append(dom, node('blockquote', 'live is live'));
+    const dom2 = append(dom1, node('blockquote', 'i am sexy, and i know it'));
+    const result = l('i am sexy, and i know it', 'live is live');
+    expect(listToString(quotes(dom2))).toBe(listToString(result));
   });
 });

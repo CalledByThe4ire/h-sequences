@@ -1,45 +1,38 @@
 ### html-tags.js
 
-Реализуйте и экспортируйте функцию `map` для библиотеки `html-tags`. Реализация должна быть построена с использованием итеративного процесса (без циклов, на основе рекурсии). Эта функция подобна той что описывалась в теории для списков, только текущая реализация работает с html-списком. Параметры и их порядок у функций аналогичный. Первый - функция-трансформер, второй - коллекция (в нашем случае список html-тегов).
+Реализуйте и экспортируйте функцию `filter` для библиотеки `html-tags`, используя итеративный процесс:
 
 ```
-import { make, append, node, value, is } from 'hexlet-html-tags';
+import { node, append, make, filter, toString as htmlToString } from 'hexlet-html-tags';
+
+const html1 = append(make(), node('h1', 'header1'));
+const html2 = append(html1, node('h1', 'header2'));
+const html3 = append(html2, node('p', 'content'));
+
+const processedHtml = filter((element) =>
+  !is('h1', element), html3);
+
+//<p>content</p>
+htmlToString(processedHtml);
+
+```
+
+Реализуйте и экспортируйте функцию `quotes`, которая извлекает из html тексты цитат и возвращает список цитат.
+
+```
+import { toString as pairToString } from 'hexlet-pairs-data';
+import { make, append, node } from 'hexlet-html-tags';
 
 const dom1 = make();
 const dom2 = append(dom1, node('h1', 'scheme'));
 const dom3 = append(dom2, node('p', 'is a lisp'));
+const dom4 = append(dom3, node('blockquote', 'live is live'));
+const dom5 = append(dom4, node('blockquote', 'i am sexy, and i know it'));
 
-// Отображение в результате которого в html-списке заменяются теги h1 на теги h2
-const processedDom = map((element) => {
-  if (is('h1', element)) {
-    return node('h2', value(element));
-  }
-  return element;
-}, dom3);
+listToString(quotes(dom5)); // ('i am sexy, and i know it', 'live is live');
 
 ```
-
-Реализуйте и экспортируйте функцию `mirror`, которая переворачивает содержимое тегов, так чтобы читать его нужно было справа налево, а не слева направо.
-
-```
-import { make, append, node, value, is, toString as htmlToString } from 'hexlet-html-tags';
-
-const dom1 = make();
-const dom2 = append(dom1, node('h1', 'scheme'));
-const dom3 = append(dom2, node('p', 'is a lisp'));
-
-// <h1>emehcs</h1>
-// <p>psil a si</p>
-htmlToString(mirror(dom3));
-
-```
-
-Экспортируйте все созданные функции.
 
 ### Примечание
 
-Функцию `b2p` можно использовать для наглядного сопоставления частного варианта операции отображения с обобщённой реализацией операции отображения (собственно, `map`).
-
-### Подсказки
-
--   Функция `reverseStr` (псевдоним функции `reverse` из модуля по работе со строками `strings`) делает переворот строки.
+Функцию `removeHeaders` можно использовать для наглядного сопоставления частного варианта операции фильтрации с обобщённой реализацией операции отображения (собственно, `filter`).
