@@ -1,36 +1,41 @@
 ### html-tags.js
 
-Реализуйте и экспортируйте функцию `reduce` для библиотеки `html-tags`:
+Реализуйте и экспортируйте функцию `extractHeaders`, которая извлекает тексты всех заголовков `h2` из переданного `html` и возвращает `html` в котором каждый из этих текстов обернут в `p`.
+
+Например такой `html` в строковом представлении `<h2>header1</h2><h2>header2</h2><p>content</p>` превратится в такой `<p>header1</p><p>header2</p>`. Ниже развернутый пример.
 
 ```
-import { node, append, make, reduce } from 'hexlet-html-tags';
+import { node, append, make, reduce, toString as htmlToString } from 'hexlet-html-tags';
 
-const html1 = append(make(), node('h1', 'header1'));
-const html2 = append(html1, node('h1', 'header2'));
+const html1 = append(make(), node('h2', 'header1'));
+const html2 = append(html1, node('h2', 'header2'));
 const html3 = append(html2, node('p', 'content'));
+// => <h2>header1</h2><h2>header2</h2><p>content</p>
 
-reduce((element, acc) => {
-  return is('h1', element) ? acc + 1 : acc;
-}, 0, html3); // 2
+htmlToString(extractHeaders(html3));
+// => <p>header1</p><p>header2</p>
 
 ```
 
-Реализуйте и экспортируйте функцию `emptyTagsCount`, которая считает количество пустых тегов. Тип тега задается первым параметром функции.
+Реализуйте и экспортируйте функцию `wordsCount`, которая считает вхождения слова в определенный тег. Для подсчета слов в тексте одного тега воспользуйтесь вспомогательной функцией `wc`, которая уже импортирована в модуль `html-tags`.
 
 ```
 import { make, append, node } from 'hexlet-html-tags';
 
-const html1 = make();
-const html2 = append(html1, node('h1', 'scheme'));
-const html3 = append(html2, node('p', 'is a lisp'));
-const html4 = append(html3, node('blockquote', ''));
-const html5 = append(html4, node('blockquote', ''));
-const html6 = append(html5, node('blockquote', 'quote'));
+const html1 = append(make(), node('h2', 'header1 lisp'));
+const html2 = append(html1, node('p', 'content'));
+const html3 = append(html2, node('h2', 'lisp header2 lisp'));
+const html4 = append(html3, node('p', 'content lisp'));
 
-emptyTagsCount('blockquote', html6); // 2
+wordsCount('h2', 'lisp', html4); // 3
 
 ```
 
-### Примечание
+### Подсказки
 
-Функцию `headersCount` можно использовать для наглядного сопоставления частного варианта свёртки с обобщённой реализацией операции отображения (собственно, `reduce`).
+-   Подсчет слов в тексте: `wc(word, text)`, где `word` искомое слово, а `text` это текст, в котором ведется поиск.
+
+    ```
+    wc('what', 'what, what, who, what'); // 3
+    wc('la', 'loli'); // 0
+    ```

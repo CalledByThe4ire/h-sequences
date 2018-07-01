@@ -1,43 +1,33 @@
-import { make, append, node, is, toString as htmlToString } from 'hexlet-html-tags'; // eslint-disable-line
-import { reduce, emptyTagsCount, headersCount } from '../src/html-tags';
+import { make, append, node, toString as htmlToString } from 'hexlet-html-tags'; // eslint-disable-line
+import { extractHeaders, wordsCount } from '../src/html-tags';
+
+const dom1 = make();
+const dom2 = append(dom1, node('h1', 'scheme'));
+const dom3 = append(dom2, node('p', 'is a lisp'));
+
+const dom4 = append(dom3, node('h2', 'haskell'));
+const dom5 = append(dom4, node('p', 'is a functional language'));
+
+const dom6 = append(dom5, node('h2', 'prolog'));
+const dom7 = append(dom6, node('p', 'sicp'));
+const dom8 = append(dom7, node('blockquote', 'haskell haskell'));
+const dom9 = append(dom8, node('blockquote', 'quote'));
+const dom10 = append(dom9, node('h2', 'haskell'));
+const dom = append(dom10, node('p', 'is about logic haskell'));
 
 describe('dom', () => {
-  let dom;
-
-  beforeAll(() => {
-    const dom1 = make();
-    const dom2 = append(dom1, node('h1', 'scheme'));
-    const dom3 = append(dom2, node('p', 'is a lisp'));
-
-    const dom4 = append(dom3, node('h1', 'haskell'));
-    const dom5 = append(dom4, node('p', 'is a functional language'));
-
-    const dom6 = append(dom5, node('h1', 'prolog'));
-
-    const dom7 = append(dom6, node('h2', ''));
-    const dom8 = append(dom7, node('span', ''));
-    dom = append(dom8, node('p', 'is about logic'));
+  it('#extractHeaders', () => {
+    const headersAsP = extractHeaders(dom);
+    const result = '<p>haskell</p><p>prolog</p><p>haskell</p>';
+    expect(htmlToString(headersAsP)).toBe(result);
   });
 
-  it('#headersCount', () => {
-    const count = headersCount('h1', dom);
-    expect(count).toBe(3);
-  });
-
-  it('#reduce', () => {
-    const count = reduce((element, acc) =>
-      (is('h1', element) ? acc + 1 : acc), 0, dom);
-    expect(count).toBe(3);
-
-    const count2 = reduce((element, acc) =>
-      (is('span', element) ? acc + 1 : acc), 0, dom);
-    expect(count2).toBe(1);
-  });
-
-  it('#emptyTagsCount', () => {
-    const dom1 = append(dom, node('blockquote', ''));
-    const dom2 = append(dom1, node('blockquote', ''));
-    const dom3 = append(dom2, node('blockquote', 'quote'));
-    expect(emptyTagsCount('blockquote', dom3)).toBe(2);
+  it('#wordsCount', () => {
+    expect(wordsCount('i', 'scheme', dom)).toBe(0);
+    expect(wordsCount('h1', 'undefined', dom)).toBe(0);
+    expect(wordsCount('h1', 'scheme', dom)).toBe(1);
+    expect(wordsCount('blockquote', 'haskell', dom)).toBe(2);
+    expect(wordsCount('h2', 'haskell', dom)).toBe(2);
+    expect(wordsCount('h2', 'h2', dom)).toBe(0);
   });
 });
