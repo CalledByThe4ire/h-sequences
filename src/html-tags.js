@@ -24,29 +24,23 @@ type Message = 'car' | 'cdr';
 type Pair = (message: Message) => any;
 type List = (...args: any) => any | null;
 
-export const filter = (fn: Function, elements: List): List => {
-  const iter = (udList: List, acc: List): List => {
-    if (isEmpty(udList)) {
+export const filter = (func: Function, elements: List): List => {
+  const iter = (items: List, acc: List): List => {
+    if (isEmpty(items)) {
       return reverse(acc);
     }
-    if (!fn(head(udList))) {
-      return iter(tail(udList), acc);
-    }
-    return iter(tail(udList), cons(head(udList), acc));
+    const item: Pair = head(items);
+    const newAcc: List = func(item) ? cons(item, acc) : acc;
+    return iter(tail(items), newAcc);
   };
+
   return iter(elements, l());
 };
 
-export const quotes = (html: List): string => {
-  const filteredHtml = filter(
-    (element: Pair): boolean => is('blockquote', element),
-    html,
-  );
-  const bqValues = map(
-    (element: Pair) => value(element),
-    filteredHtml,
-  );
-  return bqValues;
+export const quotes = (elements: List): string => {
+  const filtered: List = filter(element => is('blockquote', element), elements);
+  const result: string = map(value: Function, filtered);
+  return result;
 };
 // END
 
