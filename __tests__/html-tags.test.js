@@ -1,11 +1,10 @@
-import { l, toString as listToString } from 'hexlet-pairs-data'; // eslint-disable-line
 import { make, append, node, is, toString as htmlToString } from 'hexlet-html-tags'; // eslint-disable-line
-import { filter, quotes, removeHeaders } from '../src/html-tags';
+import { reduce, emptyTagsCount, headersCount } from '../src/html-tags';
 
 describe('dom', () => {
   let dom;
 
-  beforeEach(() => {
+  beforeAll(() => {
     const dom1 = make();
     const dom2 = append(dom1, node('h1', 'scheme'));
     const dom3 = append(dom2, node('p', 'is a lisp'));
@@ -14,33 +13,31 @@ describe('dom', () => {
     const dom5 = append(dom4, node('p', 'is a functional language'));
 
     const dom6 = append(dom5, node('h1', 'prolog'));
-    dom = append(dom6, node('p', 'is about logic'));
+
+    const dom7 = append(dom6, node('h2', ''));
+    const dom8 = append(dom7, node('span', ''));
+    dom = append(dom8, node('p', 'is about logic'));
   });
 
-  it('#removeHeaders', () => {
-    const processedDom = removeHeaders(dom);
-
-    const result = '<p>is a lisp</p><p>is a functional language</p><p>is about logic</p>';
-    expect(htmlToString(processedDom)).toBe(result);
+  it('#headersCount', () => {
+    const count = headersCount('h1', dom);
+    expect(count).toBe(3);
   });
 
-  it('#filter', () => {
-    const processedDom = filter(element => is('h1', element), dom);
+  it('#reduce', () => {
+    const count = reduce((element, acc) =>
+      (is('h1', element) ? acc + 1 : acc), 0, dom);
+    expect(count).toBe(3);
 
-    const result = '<h1>scheme</h1><h1>haskell</h1><h1>prolog</h1>';
-    expect(htmlToString(processedDom)).toBe(result);
-
-    const processedDom2 = filter(element => is('p', element), dom);
-    const result2 = '<p>is a lisp</p><p>is a functional language</p><p>is about logic</p>';
-    expect(htmlToString(processedDom2)).toBe(result2);
-
-    expect(htmlToString(make())).toBe('');
+    const count2 = reduce((element, acc) =>
+      (is('span', element) ? acc + 1 : acc), 0, dom);
+    expect(count2).toBe(1);
   });
 
-  it('#quotes', () => {
-    const dom1 = append(dom, node('blockquote', 'live is live'));
-    const dom2 = append(dom1, node('blockquote', 'i am sexy, and i know it'));
-    const result = l('i am sexy, and i know it', 'live is live');
-    expect(listToString(quotes(dom2))).toBe(listToString(result));
+  it('#emptyTagsCount', () => {
+    const dom1 = append(dom, node('blockquote', ''));
+    const dom2 = append(dom1, node('blockquote', ''));
+    const dom3 = append(dom2, node('blockquote', 'quote'));
+    expect(emptyTagsCount('blockquote', dom3)).toBe(2);
   });
 });
