@@ -10,4 +10,10 @@ type Message = 'car' | 'cdr';
 type Pair = (message: Message) => any;
 type List = (...args: any) => any | null;
 
+export const extractHeaders = (html: List): List => {
+  const filteredHtml = filter((element: Pair): boolean => is('h2', element), html);
+  const values = map((element: Pair): List => value(element), filteredHtml);
+  return map((val: string): List => node('p', val), values);
+};
+
 // END
