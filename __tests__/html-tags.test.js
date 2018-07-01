@@ -22,12 +22,12 @@ describe('dom', () => {
     expect(htmlToString(headersAsP)).toBe(result);
   });
 
-  // it('#wordsCount', () => {
-  //   expect(wordsCount('i', 'scheme', dom)).toBe(0);
-  //   expect(wordsCount('h1', 'undefined', dom)).toBe(0);
-  //   expect(wordsCount('h1', 'scheme', dom)).toBe(1);
-  //   expect(wordsCount('blockquote', 'haskell', dom)).toBe(2);
-  //   expect(wordsCount('h2', 'haskell', dom)).toBe(2);
-  //   expect(wordsCount('h2', 'h2', dom)).toBe(0);
-  // });
+  it('#wordsCount', () => {
+    expect(wordsCount('i', 'scheme', dom)).toBe(0);
+    expect(wordsCount('h1', 'undefined', dom)).toBe(0);
+    expect(wordsCount('h1', 'scheme', dom)).toBe(1);
+    expect(wordsCount('blockquote', 'haskell', dom)).toBe(2);
+    expect(wordsCount('h2', 'haskell', dom)).toBe(2);
+    expect(wordsCount('h2', 'h2', dom)).toBe(0);
+  });
 });
