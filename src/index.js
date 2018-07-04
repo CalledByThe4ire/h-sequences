@@ -1,5 +1,5 @@
 // @flow
 
-import zip from './zip';
+import isSafeQueens from './isSafeQueens';
 
-export default zip;
+export default isSafeQueens;
