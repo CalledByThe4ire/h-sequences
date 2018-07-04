@@ -1,5 +1,5 @@
 // @flow
 
-import isSafeQueens from './isSafeQueens';
+import solution from './solution';
 
-export default isSafeQueens;
+export default solution;
