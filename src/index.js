@@ -1,5 +1,5 @@
 // @flow
 
-import soluton from './soluton';
+import sort from './sort';
 
-export default soluton;
+export default sort;
