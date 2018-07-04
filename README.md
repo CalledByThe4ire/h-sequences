@@ -1,36 +1,119 @@
-Задача о восьми ферзях --- широко известная задача по расстановке фигур на шахматной доске. Исходная формулировка: "Расставить на стандартной 64-клеточной шахматной доске 8 ферзей так, чтобы ни один из них не находился под боем другого". Подразумевается, что ферзь бьёт все клетки, расположенные по вертикалям, горизонталям и обеим диагоналям.
+Частой задачей при работе с деревьями (особенно html), является необходимость выбрать список узлов по определенному критерию.
 
-// из материалов Википедии
+Пара примеров из реальной жизни:
 
-Задачу можно обобщить следующим образом: "На шахматной доске со стороной N, расставить N ферзей так, чтобы ни один из них не находился под боем другого".
-
-### isSafeQueens.js
-##### (52%)
-
-Реализуйте и экспортируйте по умолчанию `isSafeQueens`, которая принимает комбинацию ферзей в виде списка и проверяет, является ли данная расстановка решением задачи.
-
-Комбинации формируются следующим образом:
-
-`(2, 4, 1, 3)`
-
-где каждое число --- это позиция ферзя по вертикали, а порядок числа в списке --- позиция ферзя по горизонтали.
-
-Для примера выше, доска будет выглядеть так:
+XPath
 
 ```
-     1   2   3   4
-    ___ ___ ___ ___
-1  |___|___|_*_|___|
-2  |_*_|___|___|___|
-3  |___|___|___|_*_|
-4  |___|_*_|___|___|
+/bookstore/book/price[text()]
+price/@exchange/total
+book[excerpt]/author[degree]
 
 ```
 
-Пример работы:
+JQuery
 
 ```
-const queens = l(2, 4, 1, 3);
+$("ul > li:first-child")
+$("p.class1, #p1")
 
-isSafeQueens(queens); // true
 ```
+
+### solution.js
+##### (49%)
+
+Реализуйте и экспортируйте по умолчанию функцию `select`, которая возвращает список нод в соответствии с запросом. Запрос это список из имен тегов, в котором каждый следующий тег это тег, вложенный в предыдущий. Порядок, в котором ноды возвращаются - не важен.
+
+У нас есть такой html:
+
+```
+<h1>scheme</h1>
+<p>is a lisp</p>
+<p>
+  <ul>
+    <li>item 2</li>
+    <li>item 1</li>
+  </ul>
+</p>
+<ol>
+  <li>item 2</li>
+  <li>item 1</li>
+</ol>
+<p>is a functional language</p>
+<ul>
+  <li>item</li>
+</ul>
+<div>
+  <p>another text</p>
+</div>
+<div>
+  <div>
+    <p>
+      <span>text</span>
+    </p>
+  </div>
+</div>
+<div>
+  <a>
+    <div>
+      <p>
+        <span>text</span>
+      </p>
+    </div>
+  </a>
+</div>
+<h1>prolog</h1>
+<p>is about logic</p>
+
+```
+
+Строим html следующим образом:
+
+```
+const dom1 = make();
+const dom2 = append(dom1, node('h1', 'scheme'));
+const dom3 = append(dom2, node('p', 'is a lisp'));
+const children1 = l(node('li', 'item 1'), node('li', 'item 2'));
+const dom4 = append(dom3, node('p', l(node('ul', children1))));
+const children2 = l(node('li', 'item 1'), node('li', 'item 2'));
+const dom5 = append(dom4, node('ol', children2));
+const dom6 = append(dom5, node('p', 'is a functional language'));
+const children3 = l(node('li', 'item'));
+const dom7 = append(dom6, node('ul', children3));
+const dom8 = append(dom7, node('div', l(node('p', 'another text'))));
+const dom9 = append(dom8, node('div', l(node('div', l(node('p', l(node('span', 'text'))))))));
+const dom10 = append(dom9, node('div', l(node('a', l(node('div', l(node('p', l(node('span', 'text'))))))))));
+const dom11 = append(dom10, node('h1', 'prolog'));
+dom = append(dom11, node('p', 'is about logic'));
+
+```
+
+Пример работы функции, где для наглядности показано какой она будет возвращать результат если выводить его на экран (`htmlToString`):
+
+```
+select(l('p', 'ul', 'li'), dom);
+// <li>item 1</li><li>item 2</li>
+
+select(l('div', 'div', 'p'), dom);
+// <p><span>text</span></p>
+
+select(l('div', 'p'), dom);
+// <p>another text</p><p><span>text</span></p><p><span>text</span></p>
+
+select(l('div'), dom));
+// <div><a><div><p><span>text</span></p></div></a></div><div><p><span>text</span></p></div><div><div><p><span>text</span></p></div></div><div><p><span>text</span></p></div><div><p>another text</p></div>
+
+```
+
+#### Алгоритм работы функции
+
+-   Список тегов для поиска будем называть словом `query`.
+-   `query` ищется с любого уровня дерева, а не только с верхнего. Например, если наш `query` это `p`, то будут найдены все `p` на всех уровнях.
+-   Производится поиск только подряд идущих тегов, например, если запрос `l('ul', 'li')`, то будут найдены только те `li`, которые идут сразу за `ul`.
+
+### Подсказки
+
+-   `hasChildren` - функция, которая проверяет, есть ли потомки у элемента
+-   `children` - функция, которая возвращает список потомков
+
+P.S. В целом, эта функция достаточно сложна и, если вы сможете решить эту задачу самостоятельно, то вас смело можно брать на работу).
