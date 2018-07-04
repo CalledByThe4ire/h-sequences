@@ -1,5 +1,5 @@
 // @flow
 
-import union from './union';
+import list from './list';
 
-export default union;
+export default list;
