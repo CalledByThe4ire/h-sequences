@@ -1,5 +1,5 @@
 // @flow
 
-import flatten from './flatten';
+import soluton from './soluton';
 
-export default flatten;
+export default soluton;
