@@ -1,5 +1,5 @@
 // @flow
 
-import list from './list';
+import select from './select';
 
-export default list;
+export default select;
