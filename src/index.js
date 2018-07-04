@@ -1,5 +1,5 @@
 // @flow
 
-import select from './select';
+import union from './union';
 
-export default select;
+export default union;
