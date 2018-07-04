@@ -1,5 +1,5 @@
 // @flow
 
-import union from './union';
+import zip from './zip';
 
-export default union;
+export default zip;
