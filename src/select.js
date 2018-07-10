@@ -27,27 +27,15 @@ type Node = {
   nodeValue: mixed
 };
 
-const select = (tagName: string, list: List): List => {
-  if (isEmpty(list)) {
-    return list;
-  }
-  const predicate = (element: Node): boolean => is(tagName, element);
-  const func = (element: Node, acc: List): List => {
-    if (!predicate(element) && !hasChildren(element)) {
-      return acc;
-    }
-
-    if (predicate(element)) {
-      if (!hasChildren(element) || !predicate(head(children(element)))) {
-        return consList(element, acc);
-      } else if (predicate(head(children(element)))) {
-        return concat(consList(element, acc), children(element));
-      }
-    }
-    return reduce(func, acc, children(element));
-  };
-  return reduce(func, l(), list);
-};
-
-export default select;
+const select = (tagName: string, html: List): List =>
+  reduce(
+    (element: Node, acc: List) => {
+      const acc2: List = hasChildren(element)
+        ? concat(select(tagName, children(element)), acc)
+        : acc;
+      return is(tagName, element) ? consList(element, acc2) : acc2;
+    },
+    l(),
+    html,
+  );
 // END
