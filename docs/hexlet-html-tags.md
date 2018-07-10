@@ -1,53 +1,3 @@
-name
-----
-
-Get node's name
-
-Parameters
-
--   `element`
-
-Examples
-
-```
-name(node('p', 'hello, world')); // p
-
-```
-
-value
------
-
-Get node's value
-
-Parameters
-
--   `element`
-
-Examples
-
-```
-value(node('p', 'hello, world')); // hello, world
-
-```
-
-node
-----
-
-Make a node
-
-Parameters
-
--   `tag`
--   `mix` (optional, default `data.l()`)
-
-Examples
-
-```
-node('h2', 'hello, world');
-node('div', l(node('p', 'one'), node('p', 'two')));
-
-```
-
 is
 --
 
@@ -80,4 +30,73 @@ Examples
 ```
 const tags = make(node('p', 'text'), node('p', 'text2'));
 toString(tags); // <p>text</p><p>text2</p>
+
+```
+
+hasChildren
+-----------
+
+Check if node has children
+
+Parameters
+
+-   `element`
+
+Examples
+
+```
+hasChildren(node('h3', 'hexlet')); // false
+hasChildren(node('div', l(node('p', 'wow')))); // true
+
+```
+
+children
+--------
+
+Get node's children
+
+Parameters
+
+-   `element`
+
+Examples
+
+```
+const children = l(node('p', 'wow'), node('p', 'hey');
+children(node('div', children)); // [('p', 'wow'), ('p', 'hey')]
+
+```
+
+filter
+------
+
+Filter a list of nodes
+
+Parameters
+
+-   `func`
+-   `elements`
+
+Examples
+
+```
+filter(element => is('h2', element), dom);
+
+```
+
+reduce
+------
+
+Reduce a list of nodes
+
+Parameters
+
+-   `func`
+-   `init`
+-   `elements`
+
+Examples
+
+```
+reduce((element, acc) => acc + 1, 0, dom);
 ```
