@@ -6,10 +6,16 @@ import { l, isEmpty, head, tail, cons, reverse, toString as listToString } from 
 type List = (...args: any) => any | null;
 
 const zip = (list1: List, list2: List): List => {
-  if (isEmpty(list1) || isEmpty(list2)) {
-    return l();
-  }
-  return cons(l(head(list1), head(list2)), zip(tail(list1), tail(list2)));
+  const iter = (first: List, last: List, acc: List): List => {
+    if (isEmpty(first) || isEmpty(last)) {
+      return acc;
+    }
+
+    const newAcc = cons(l(head(first), head(last)), acc);
+    return iter(tail(first), tail(last), newAcc);
+  };
+
+  return reverse(iter(list1, list2, l()));
 };
 
 export default zip;
