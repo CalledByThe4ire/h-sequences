@@ -17,11 +17,10 @@ export default (list: List): List => {
   if (isEmpty(list)) {
     return l();
   }
-  return filter((element: number): List => {
-    if (head(list) % 2 === 0) {
-      return element % 2 === 0;
-    }
-    return element % 2 !== 0;
-  }, list);
+  const first = head(list);
+  return filter(
+    (value: number): List => Math.abs(first % 2) === Math.abs(value % 2),
+    list,
+  );
 };
 // END
