@@ -28,26 +28,39 @@ type List = (...args: any) => any | null;
 //   return has(tail(list), element);
 // };
 
+// const concat = (list1: List, list2: List): List => {
+//   if (isEmpty(list1)) {
+//     return list2;
+//   }
+
+//   return cons(head(list1), concat(tail(list1), list2));
+// };
+
+// iterative process
+// const unique = (list: List): List => {
+//   const iter = (items: List, acc: List): List => {
+//     if (isEmpty(items)) {
+//       return reverse(acc);
+//     }
+
+//     const current = head(items);
+//     const rest = tail(items);
+//     const newAcc = has(rest, current) ? acc : cons(current, acc);
+
+//     return iter(rest, newAcc);
+//   };
+//   return iter(list, l());
+// };
+
 const unique = (list: List): List => {
-  const iter = (items: List, acc: List): List => {
-    if (isEmpty(items)) {
-      return reverse(acc);
+  const func = (element: mixed, acc: List): List => {
+    if (has(acc, element)) {
+      return acc;
     }
-
-    const current = head(items);
-    const rest = tail(items);
-    const newAcc = has(rest, current) ? acc : cons(current, acc);
-
-    return iter(rest, newAcc);
+    return cons(element, acc);
   };
-  return iter(list, l());
+  return reverse(reduce(func, l(), list));
 };
-
-// const list1 = l(1, 5, 3, 5, 8, 9);
-// const list2 = l(2, 3, 2, 1, 7);
-
-// console.log(listToString(unique(list1)));
-// console.log(listToString(unique(list2)));
 
 export default (list1: List, list2: List): List => {
   if (isEmpty(list1) && isEmpty(list2)) {
