@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export, no-confusing-arrow */
 // eslint-disable-next-line
 import {
   l,
@@ -17,19 +17,15 @@ import {
 type List = (...args: any) => any | null;
 
 const flatten = (list: List): List => {
-  const iter = (items: List, acc: List) => {
-    if (isEmpty(items)) {
-      return acc;
-    }
-    const current = head(items);
-    const rest = tail(items);
+  const removeList = (elements: List, accumulator: List) =>
+    reduce(
+      (element: mixed, acc: List) =>
+        !isList(element) ? cons(element, acc) : removeList(element, acc),
+      accumulator,
+      elements,
+    );
 
-    if (!isList(current)) {
-      return iter(rest, cons(current, acc));
-    }
-    return iter(rest, iter(current, acc));
-  };
-  return reverse(iter(list, l()));
+  return reverse(removeList(list, l()));
 };
 
 export default flatten;
