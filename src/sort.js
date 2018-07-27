@@ -20,17 +20,13 @@ const sort = (list: List): List => {
     return l();
   }
 
-  const base: number = head(list);
-  const firstMember: List = filter(
-    (element: number): boolean => element < base,
-    tail(list),
-  );
-  const secondMember: List = filter(
-    (element: number): boolean => element >= base,
-    tail(list),
-  );
+  const divisor: number = head(list);
+  const rest: List = tail(list);
 
-  return concat(sort(firstMember), cons(base, sort(secondMember)));
+  const left: List = filter((value: number) => value <= divisor, rest);
+  const right: List = filter((value: number) => value > divisor, rest);
+
+  return concat(sort(left), cons(divisor, sort(right)));
 };
 
 export default sort;
