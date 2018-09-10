@@ -25,4 +25,12 @@ export const toString = (list) => {
   };
   return iter('', list);
 };
+
+export const head = (list) => {
+  if (indexOf(list, delimiter) === -1) {
+    return list;
+  }
+  return substr(list, 0, indexOf(list, delimiter));
+};
+
 // END
