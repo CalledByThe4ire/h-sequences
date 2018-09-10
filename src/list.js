@@ -33,4 +33,10 @@ export const head = (list) => {
   return substr(list, 0, indexOf(list, delimiter));
 };
 
+export const tail = (list) => {
+  if (indexOf(list, delimiter) === -1) {
+    return '';
+  }
+  return substr(list, indexOf(list, delimiter) + 1);
+};
 // END
