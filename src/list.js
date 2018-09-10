@@ -39,4 +39,6 @@ export const tail = (list) => {
   }
   return substr(list, indexOf(list, delimiter) + 1);
 };
+
+export const isEmpty = list => length(list) === 0;
 // END
