@@ -2,7 +2,6 @@
 import { length, substr, indexOf } from './strings';
 
 const delimiter = '\n';
-
 export const l = (...items) => items.join(delimiter);
 
 // BEGIN (write your solution here)
@@ -47,5 +46,28 @@ export const cons = (item, list) => {
     return item;
   }
   return `${item}\n${list}`;
+};
+
+const reverse = (list) => {
+  const iter = (acc, items) => {
+    if (isEmpty(items)) {
+      return acc;
+    }
+    return iter(cons(head(items), acc), tail(items));
+  };
+  return iter(l(), list);
+};
+
+export const filter = (predicate, list) => {
+  const iter = (acc, items) => {
+    if (isEmpty(items)) {
+      return reverse(acc);
+    }
+
+    const item = head(items);
+    const newAcc = predicate(item) ? cons(item, acc) : acc;
+    return iter(newAcc, tail(items));
+  };
+  return iter(l(), list);
 };
 // END

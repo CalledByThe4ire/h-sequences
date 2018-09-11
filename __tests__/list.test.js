@@ -39,15 +39,15 @@ test('cons', () => {
   );
 });
 
-// test('filter', () => {
-//   const list = l('foo', 'bar', 'baz');
-//   expect(toString(filter(item => item !== 'bar', list))).toBe(
-//     toString(l('foo', 'baz'))
-//   );
-//   expect(toString(filter(item => item !== 'baz', list))).toBe(
-//     toString(l('foo', 'bar'))
-//   );
-// });
+test('filter', () => {
+  const list = l('foo', 'bar', 'baz');
+  expect(toString(filter(item => item !== 'bar', list))).toBe(
+    toString(l('foo', 'baz'))
+  );
+  expect(toString(filter(item => item !== 'baz', list))).toBe(
+    toString(l('foo', 'bar'))
+  );
+});
 
 test('append to empty', () => {
   const list = l();
