@@ -54,11 +54,11 @@ test('append to empty', () => {
   expect(toString(cons('bas', list))).toBe(toString(l('bas')));
 });
 
-// test('map', () => {
-//   const list = l('foo', 'bar', 'baz');
-//   expect(toString(map(item => item[0], list))).toBe(toString(l('f', 'b', 'b')));
-//   expect(toString(map(item => item[1], list))).toBe(toString(l('o', 'a', 'a')));
-// });
+test('map', () => {
+  const list = l('foo', 'bar', 'baz');
+  expect(toString(map(item => item[0], list))).toBe(toString(l('f', 'b', 'b')));
+  expect(toString(map(item => item[1], list))).toBe(toString(l('o', 'a', 'a')));
+});
 
 // test('reduce', () => {
 //   const list = l('foo', 'bar', 'baz');

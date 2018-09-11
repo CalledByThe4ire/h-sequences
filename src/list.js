@@ -70,4 +70,16 @@ export const filter = (predicate, list) => {
   };
   return iter(l(), list);
 };
+
+export const map = (callback, list) => {
+  const iter = (acc, items) => {
+    if (isEmpty(items)) {
+      return reverse(acc);
+    }
+    return iter(cons(callback(head(items)), acc), tail(items));
+  };
+
+  return iter(l(), list);
+};
+
 // END
