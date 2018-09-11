@@ -41,4 +41,11 @@ export const tail = (list) => {
 };
 
 export const isEmpty = list => length(list) === 0;
+
+export const cons = (item, list) => {
+  if (length(list) === 0) {
+    return item;
+  }
+  return `${item}\n${list}`;
+};
 // END

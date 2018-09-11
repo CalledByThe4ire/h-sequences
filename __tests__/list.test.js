@@ -32,12 +32,12 @@ test('isEmpty', () => {
   expect(isEmpty(l('hello'))).toBeFalsy();
 });
 
-// test('cons', () => {
-//   const list = l('foo', 'bar', 'baz');
-//   expect(toString(cons('bas', list))).toBe(
-//     toString(l('bas', 'foo', 'bar', 'baz'))
-//   );
-// });
+test('cons', () => {
+  const list = l('foo', 'bar', 'baz');
+  expect(toString(cons('bas', list))).toBe(
+    toString(l('bas', 'foo', 'bar', 'baz'))
+  );
+});
 
 // test('filter', () => {
 //   const list = l('foo', 'bar', 'baz');
@@ -49,10 +49,10 @@ test('isEmpty', () => {
 //   );
 // });
 
-// test('append to empty', () => {
-//   const list = l();
-//   expect(toString(cons('bas', list))).toBe(toString(l('bas')));
-// });
+test('append to empty', () => {
+  const list = l();
+  expect(toString(cons('bas', list))).toBe(toString(l('bas')));
+});
 
 // test('map', () => {
 //   const list = l('foo', 'bar', 'baz');
