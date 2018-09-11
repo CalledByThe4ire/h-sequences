@@ -1,18 +1,18 @@
 /* eslint-disable import/prefer-default-export */
 import { length, substr, indexOf } from './strings';
 
-const delimiter = '\n';
-export const l = (...items) => items.join(delimiter);
+const delimiter: string = '\n';
+export const l = (...items: Array<any>): string => items.join(delimiter);
 
 // BEGIN (write your solution here)
 // @flow
-export const toString = (list) => {
-  const iter = (acc, str) => {
-    const fragment =
+export const toString = (list: string): string => {
+  const iter = (acc: string, str: string) => {
+    const fragment: string =
       indexOf(str, delimiter) !== -1
         ? substr(str, 0, indexOf(str, delimiter))
         : substr(str);
-    const idx = length(fragment) + 1;
+    const idx: number = length(fragment) + 1;
 
     if (length(str) === 0) {
       return `(${substr(acc, 0, length(acc) - 1)})`;
@@ -25,23 +25,23 @@ export const toString = (list) => {
   return iter('', list);
 };
 
-export const head = (list) => {
+export const head = (list: string): string => {
   if (indexOf(list, delimiter) === -1) {
     return list;
   }
   return substr(list, 0, indexOf(list, delimiter));
 };
 
-export const tail = (list) => {
+export const tail = (list: string): string => {
   if (indexOf(list, delimiter) === -1) {
     return '';
   }
   return substr(list, indexOf(list, delimiter) + 1);
 };
 
-export const isEmpty = list => length(list) === 0;
+export const isEmpty = (list: string): boolean => length(list) === 0;
 
-export const cons = (item, list) => {
+export const cons = (item: any, list: string): string => {
   if (length(list) === 0) {
     return item;
   }
@@ -58,7 +58,7 @@ const reverse = (list) => {
   return iter(l(), list);
 };
 
-export const filter = (predicate, list) => {
+export const filter = (predicate: () => boolean, list) => {
   const iter = (acc, items) => {
     if (isEmpty(items)) {
       return reverse(acc);
@@ -71,7 +71,7 @@ export const filter = (predicate, list) => {
   return iter(l(), list);
 };
 
-export const map = (callback, list) => {
+export const map = (callback: Function, list) => {
   const iter = (acc, items) => {
     if (isEmpty(items)) {
       return reverse(acc);
@@ -82,7 +82,7 @@ export const map = (callback, list) => {
   return iter(l(), list);
 };
 
-export const reduce = (callback, init, list) => {
+export const reduce = (callback: Function, init, list) => {
   if (isEmpty(list)) {
     return init;
   }
