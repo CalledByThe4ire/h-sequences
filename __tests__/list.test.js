@@ -60,14 +60,14 @@ test('map', () => {
   expect(toString(map(item => item[1], list))).toBe(toString(l('o', 'a', 'a')));
 });
 
-// test('reduce', () => {
-//   const list = l('foo', 'bar', 'baz');
-//   expect(reduce((item, acc) => (acc ? `${acc}+${item}` : item), '', list)).toBe(
-//     'foo+bar+baz'
-//   );
-//   const list2 = l(3, 4, 1);
-//   expect(reduce((item, acc) => (acc ? acc * item : item), 1, list2)).toBe(12);
-// });
+test('reduce', () => {
+  const list = l('foo', 'bar', 'baz');
+  expect(reduce((item, acc) => (acc ? `${acc}+${item}` : item), '', list)).toBe(
+    'foo+bar+baz'
+  );
+  const list2 = l(3, 4, 1);
+  expect(reduce((item, acc) => (acc ? acc * item : item), 1, list2)).toBe(12);
+});
 
 test('toString', () => {
   const list = l('foo', 0, 'baz');

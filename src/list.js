@@ -82,4 +82,12 @@ export const map = (callback, list) => {
   return iter(l(), list);
 };
 
+export const reduce = (callback, init, list) => {
+  if (isEmpty(list)) {
+    return init;
+  }
+
+  return reduce(callback, callback(head(list), init), tail(list));
+};
+
 // END
