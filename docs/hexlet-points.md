@@ -71,12 +71,3 @@ const point = makePoint(0, 10);
 toString(point); // (0, 10)
 
 ```
-
-Returns [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)
-
--   [](https://ide-js-sequences-polygon-perimeter-challenge-899710.exercise2.hexlet.io/?#)
--   [LINTER](https://ide-js-sequences-polygon-perimeter-challenge-899710.exercise2.hexlet.io/?#)
--   [README](https://ide-js-sequences-polygon-perimeter-challenge-899710.exercise2.hexlet.io/?#)
--   [Terminal 1](https://ide-js-sequences-polygon-perimeter-challenge-899710.exercise2.hexlet.io/?#)
--   [Terminal 2](https://ide-js-sequences-polygon-perimeter-challenge-899710.exercise2.hexlet.io/?#)
--
