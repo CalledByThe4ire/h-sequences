@@ -1,55 +1,52 @@
+// @flow
 import { getX, getY } from 'hexlet-points';
 import { isEmpty, head, tail } from 'hexlet-pairs-data';
 
-const isListValid = (list) => {
-  if (isEmpty(list)) {
-    return false;
-  }
-  const iter = (pointsList, acc, limit) => {
-    if (acc === limit) {
-      return true;
-    }
-    const rest = tail(pointsList);
-    const newAcc = acc + 1;
+type List = (...args: any) => any | null;
+type Point = Point;
 
-    if (isEmpty(rest) && (newAcc < limit)) {
+const areThereLessThenThreePoints = (points: List) => {
+  const iter = (list: List, acc: number) => {
+    if (acc > 2) {
       return false;
     }
-    return iter(rest, newAcc, limit);
+
+    if (isEmpty(list)) {
+      return true;
+    }
+
+    return iter(tail(list), acc + 1);
   };
-  return iter(list, 0, 3);
+
+  return iter(points, 0);
 };
 
-const findSegmentLength = (point1, point2) => {
-  // point1
-  const x1 = getX(point1);
-  const y1 = getY(point1);
-
-  // point1
-  const x2 = getX(point2);
-  const y2 = getY(point2);
+const segmentLength = (point1: Point, point2: Point) => {
+  const x1: number = getX(point1);
+  const x2: number = getX(point2);
+  const y1: number = getY(point1);
+  const y2: number = getY(point2);
 
   return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2));
 };
 
-// BEGIN (write your solution here)
-export default (list) => {
-  if (!isListValid(list)) {
+export default (points: List) => {
+  if (areThereLessThenThreePoints(points)) {
     return null;
   }
-  const first = head(list);
-  const iter = (pointsList, acc) => {
-    const current = head(pointsList);
-    const rest = tail(pointsList);
 
+  const startPoint: Point = head(points);
+  const iter = (list: List) => {
+    const currentPoint: Point = head(list);
+    const rest: List = tail(list);
     if (isEmpty(rest)) {
-      return acc + findSegmentLength(current, first);
+      return segmentLength(currentPoint, startPoint);
     }
-    const len = findSegmentLength(current, head(rest));
-    const newAcc = acc + len;
 
-    return iter(rest, newAcc);
+    const nextPoint: Point = head(rest);
+    return segmentLength(currentPoint, nextPoint) + iter(rest);
   };
-  return iter(list, 0);
+
+  return iter(points);
 };
 // END
