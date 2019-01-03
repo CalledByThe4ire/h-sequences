@@ -36,8 +36,8 @@
   "homepage": "https://github.com/hexlet-boilerplates/nodejs-package#readme",
   "dependencies": {
     "gulp": "^4.0.0",
-    "hexlet-html-tags": "^0.2.8",
-    "hexlet-pairs-data": "^1.0.8"
+    "hexlet-pairs-data": "^1.0.8",
+    "hexlet-points": "^1.0.7"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
