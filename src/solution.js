@@ -12,60 +12,39 @@ import {
   toString as htmlToString,
   hasChildren,
   children,
+  map,
+  filter,
   reduce,
 } from 'hexlet-html-tags'; // eslint-disable-line
 
 // BEGIN (write your solution here)
-const selectByTags = (query, root) => {
-  const iter = (tags, tree, acc) => {
-    if (isEmpty(tree)) {
-      return acc;
-    }
-
-    // tags
-    const tag = head(tags);
-    const restTags = tail(tags);
-
-    // nodes
-    const element = head(tree);
-    const restNodes = tail(tree);
-
-    if (isEmpty(restTags) && is(tag, element)) {
-      return tree;
-    }
-
-    if (hasChildren(element) && is(tag, element)) {
-      return iter(restTags, children(element), acc);
-    }
-    return iter(tags, restNodes, acc);
-  };
-  return iter(query, root, l());
+const getChildrenFromElements = (elements) => {
+  const mapped = map(element => (hasChildren(element) ? children(element) : l()), elements);
+  const result = reduce((elementChildren, acc) => concat(elementChildren, acc), l(), mapped);
+  return result;
 };
 
-const select = (query, root) => {
-  const iter = (tags, tree, acc) => {
-    if (isEmpty(tree)) {
-      return acc;
-    }
-
-    // nodes
-    const element = head(tree);
-    const restNodes = tail(tree);
-
-    if (hasChildren(element)) {
-      return iter(
-        tags,
-        restNodes,
-        iter(
-          tags,
-          children(element),
-          concat(acc, selectByTags(tags, l(element))),
-        ),
-      );
-    }
-    return iter(tags, restNodes, concat(acc, selectByTags(tags, l(element))));
-  };
-  return iter(query, root, l());
+const getSatisfiedChildren = (query, elements) => {
+  const first = head(query);
+  const rest = tail(query);
+  const filtered = filter(element => is(first, element), elements);
+  if (isEmpty(rest)) {
+    return filtered;
+  }
+  return getSatisfiedChildren(rest, getChildrenFromElements(filtered));
 };
+
+const select = (query, dom) => {
+  const iter = (restOfDom, result) => {
+    if (isEmpty(restOfDom)) {
+      return result;
+    }
+    const elements = getSatisfiedChildren(query, restOfDom);
+    return iter(getChildrenFromElements(restOfDom), concat(elements, result));
+  };
+
+  return iter(dom, l());
+};
+
 export default select;
 // END
