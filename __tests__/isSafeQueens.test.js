@@ -11,6 +11,9 @@ describe('Is Safe Queens', () => {
 
     const queens3 = l(1, 5, 8, 6, 3, 7, 2, 4);
     expect(isSafeQueens(queens3)).toBe(true);
+
+    const queens4 = l(2, 4, 6, 1, 3, 5);
+    expect(isSafeQueens(queens4)).toBe(true);
   });
 
   it('not safe', () => {
@@ -33,4 +36,3 @@ describe('Is Safe Queens', () => {
     expect(isSafeQueens(queens6)).toBe(false);
   });
 });
-
